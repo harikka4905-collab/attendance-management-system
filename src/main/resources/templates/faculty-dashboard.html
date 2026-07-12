@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Faculty Dashboard - Attendance Pro</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 275px;
+            height: 100vh;
+            position: fixed;
+            background: #0f172a;
+            padding: 35px 18px;
+            color: white;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            margin-bottom: 45px;
+        }
+
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sidebar nav a {
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 18px;
+            transition: .3s;
+        }
+
+        .sidebar nav a:hover,
+        .sidebar nav a.active {
+            background: #2563eb;
+            color: white;
+            transform: translateX(4px);
+        }
+
+        /* MAIN */
+
+        .main-content {
+            margin-left: 275px;
+            width: calc(100% - 275px);
+            padding: 30px 42px;
+        }
+
+        /* TOP BAR */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .topbar p {
+            color: #64748b;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 14px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.05);
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* CARDS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 17px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.05);
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(0,0,0,.1);
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        .card h2 {
+            font-size: 30px;
+        }
+
+        /* ATTENDANCE */
+
+        .attendance-section {
+            background: white;
+            padding: 32px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.06);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 27px;
+            margin-bottom: 7px;
+        }
+
+        .section-header p {
+            color: #64748b;
+        }
+
+        .today {
+            background: #dbeafe;
+            color: #2563eb;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        /* SUBJECT */
+
+        .subject-selection {
+            margin: 25px 0;
+            padding: 20px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 14px;
+        }
+
+        .subject-selection label {
+            display: block;
+            font-size: 17px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 12px;
+        }
+
+        .subject-selection select {
+            width: 380px;
+            max-width: 100%;
+            padding: 14px;
+            border: 1px solid #93c5fd;
+            border-radius: 10px;
+            background: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .subject-selection select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+        }
+
+        /* TABLE */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 18px;
+            background: #f8fafc;
+            color: #334155;
+        }
+
+        td {
+            padding: 18px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tbody tr {
+            transition: .2s;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .student-name {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .student-avatar {
+            width: 48px;
+            height: 48px;
+            background: #dbeafe;
+            color: #2563eb;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .attendance-status {
+            padding: 12px 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 15px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* BUTTON */
+
+        .save-area {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .save-button {
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 15px 28px;
+            border-radius: 11px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .save-button:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .save-button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        #attendanceMessage {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        @media(max-width: 900px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main-content {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+                padding: 20px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🎓 Attendance Pro
+        </div>
+
+        <nav>
+
+            <a href="/faculty-dashboard">
+                🏠 Dashboard
+            </a>
+
+            <a href="#students">
+                🎓 Students
+            </a>
+
+            <a href="#attendance"
+               class="active">
+                ✅ Mark Attendance
+            </a>
+
+            <a href="/faculty-reports">
+                📊 Reports
+            </a>
+
+            <a href="#"
+               onclick="logout()">
+                🚪 Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Faculty Dashboard 👩‍🏫</h1>
+
+                <p>
+                    Manage students and attendance
+                </p>
+
+            </div>
+
+
+            <div class="profile">
+
+                <div class="avatar">
+                    F
+                </div>
+
+                <div>
+
+                    <strong>Faculty</strong>
+
+                    <p>Teacher Account</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARDS -->
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🎓
+                </div>
+
+                <p>Total Students</p>
+
+                <h2 id="studentCount">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    📚
+                </div>
+
+                <p>Total Subjects</p>
+
+                <h2 id="subjectCount">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    ✅
+                </div>
+
+                <p>Attendance Status</p>
+
+                <h2>Active</h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- ATTENDANCE -->
+
+        <div class="attendance-section"
+             id="attendance">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        ✅ Mark Attendance
+                    </h2>
+
+                    <p>
+                        Update today's student attendance
+                    </p>
+
+                </div>
+
+                <span class="today">
+                    Today's Class
+                </span>
+
+            </div>
+
+
+            <!-- SUBJECT SELECTION -->
+
+            <div class="subject-selection">
+
+                <label for="subjectSelect">
+
+                    📚 Select Subject
+
+                </label>
+
+                <select id="subjectSelect">
+
+                    <option value="">
+
+                        -- Select Subject --
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>Roll Number</th>
+
+                    <th>Student Name</th>
+
+                    <th>Attendance Status</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody id="studentTableBody">
+
+                <tr>
+
+                    <td colspan="3">
+
+                        Loading students...
+
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+
+            <!-- SAVE -->
+
+            <div class="save-area">
+
+                <button
+                        id="saveAttendanceButton"
+                        class="save-button"
+                        onclick="saveAttendance()">
+
+                    💾 Save Attendance
+
+                </button>
+
+
+                <span id="attendanceMessage">
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    const token =
+        localStorage.getItem("token");
+
+
+    if (!token) {
+
+        window.location.replace("/login");
+
+    }
+
+
+    /* LOAD STUDENTS */
+
+    async function loadStudents() {
+
+        const tableBody =
+            document.getElementById(
+                "studentTableBody"
+            );
+
+        try {
+
+            const response = await fetch(
+                "/api/student/all",
+                {
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    }
+
+                }
+            );
+
+
+            if (response.status === 401 ||
+                response.status === 403) {
+
+                logout();
+
+                return;
+
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load students"
+                );
+
+            }
+
+
+            const students =
+                await response.json();
+
+
+            document
+                .getElementById("studentCount")
+                .innerText =
+                students.length;
+
+
+            tableBody.innerHTML = "";
+
+
+            if (students.length === 0) {
+
+                tableBody.innerHTML = `
+
+                    <tr>
+
+                        <td colspan="3">
+
+                            No students available
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            students.forEach(student => {
+
+                const firstLetter =
+                    student.name
+                        ? student.name
+                            .charAt(0)
+                            .toUpperCase()
+                        : "S";
+
+
+                tableBody.innerHTML += `
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                ${student.rollNumber}
+
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="student-name">
+
+                                <div class="student-avatar">
+
+                                    ${firstLetter}
+
+                                </div>
+
+                                <span>
+
+                                    ${student.name}
+
+                                </span>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <select
+                                class="attendance-status"
+                                data-student-id="${student.id}">
+
+                                <option value="PRESENT">
+
+                                    ✅ Present
+
+                                </option>
+
+                                <option value="ABSENT">
+
+                                    ❌ Absent
+
+                                </option>
+
+                            </select>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            tableBody.innerHTML = `
+
+                <tr>
+
+                    <td colspan="3">
+
+                        ❌ Unable to load students
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+
+
+    /* LOAD SUBJECTS */
+
+    async function loadSubjects() {
+
+        const subjectSelect =
+            document.getElementById(
+                "subjectSelect"
+            );
+
+
+        try {
+
+            const response = await fetch(
+                "/api/subject/all",
+                {
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    }
+
+                }
+            );
+
+
+            if (response.status === 401 ||
+                response.status === 403) {
+
+                logout();
+
+                return;
+
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load subjects"
+                );
+
+            }
+
+
+            const subjects =
+                await response.json();
+
+
+            document
+                .getElementById("subjectCount")
+                .innerText =
+                subjects.length;
+
+
+            subjectSelect.innerHTML = `
+
+                <option value="">
+
+                    -- Select Subject --
+
+                </option>
+
+            `;
+
+
+            subjects.forEach(subject => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    subject.id;
+
+
+                option.textContent =
+                    subject.subjectName;
+
+
+                subjectSelect.appendChild(
+                    option
+                );
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Subject loading error:",
+                error
+            );
+
+
+            subjectSelect.innerHTML = `
+
+                <option value="">
+
+                    Unable to load subjects
+
+                </option>
+
+            `;
+
+        }
+
+    }
+
+
+
+    /* SAVE ATTENDANCE */
+
+    async function saveAttendance() {
+
+        const message =
+            document.getElementById(
+                "attendanceMessage"
+            );
+
+
+        const subjectId =
+            document.getElementById(
+                "subjectSelect"
+            ).value;
+
+
+        if (!subjectId) {
+
+            message.style.color =
+                "#dc2626";
+
+
+            message.innerText =
+                "❌ Please select a subject";
+
+
+            return;
+
+        }
+
+
+        const selects =
+            document.querySelectorAll(
+                ".attendance-status[data-student-id]"
+            );
+
+
+        const attendanceData = [];
+
+
+        selects.forEach(select => {
+
+            attendanceData.push({
+
+                studentId:
+                    Number(
+                        select.dataset.studentId
+                    ),
+
+                subjectId:
+                    Number(subjectId),
+
+                status:
+                select.value
+
+            });
+
+        });
+
+
+        if (attendanceData.length === 0) {
+
+            message.style.color =
+                "#dc2626";
+
+
+            message.innerText =
+                "❌ No students available";
+
+
+            return;
+
+        }
+
+
+        const button =
+            document.getElementById(
+                "saveAttendanceButton"
+            );
+
+
+        button.disabled = true;
+
+
+        button.innerText =
+            "⏳ Saving Attendance...";
+
+
+        message.innerText = "";
+
+
+        try {
+
+            const response = await fetch(
+                "/api/attendance/save",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            attendanceData
+                        )
+
+                }
+            );
+
+
+            const result =
+                await response.text();
+
+
+            if (response.ok) {
+
+                message.style.color =
+                    "#16a34a";
+
+
+                message.innerText =
+                    "✅ " + result;
+
+
+                button.innerText =
+                    "Attendance Saved ✓";
+
+            }
+
+            else {
+
+                message.style.color =
+                    "#dc2626";
+
+
+                message.innerText =
+                    "❌ " + result;
+
+
+                button.innerText =
+                    "💾 Save Attendance";
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+
+            message.style.color =
+                "#dc2626";
+
+
+            message.innerText =
+                "❌ Server connection error";
+
+
+            button.innerText =
+                "💾 Save Attendance";
+
+        }
+
+
+        setTimeout(() => {
+
+            button.disabled = false;
+
+
+            button.innerText =
+                "💾 Save Attendance";
+
+        }, 2000);
+
+    }
+
+
+
+    /* LOGOUT */
+
+    function logout() {
+
+        localStorage.removeItem("token");
+
+        localStorage.removeItem("role");
+
+        window.location.replace("/login");
+
+    }
+
+
+
+    /* PAGE LOAD */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        async function () {
+
+            await loadStudents();
+
+            await loadSubjects();
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
