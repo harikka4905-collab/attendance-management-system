@@ -3,13 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Faculty Reports - Attendance Pro</title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -26,6 +28,8 @@
             display: flex;
             min-height: 100vh;
         }
+
+        /* ================= SIDEBAR ================= */
 
         .sidebar {
             width: 260px;
@@ -64,11 +68,15 @@
             transform: translateX(5px);
         }
 
+        /* ================= MAIN ================= */
+
         .main {
             margin-left: 260px;
             width: calc(100% - 260px);
             padding: 35px;
         }
+
+        /* ================= HEADER ================= */
 
         .header {
             display: flex;
@@ -93,7 +101,7 @@
             display: flex;
             gap: 12px;
             align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
         .avatar {
@@ -102,11 +110,15 @@
             border-radius: 50%;
             background: #2563eb;
             color: white;
+
             display: flex;
             justify-content: center;
             align-items: center;
+
             font-weight: bold;
         }
+
+        /* ================= CARDS ================= */
 
         .cards {
             display: grid;
@@ -119,13 +131,20 @@
             background: white;
             padding: 24px;
             border-radius: 16px;
-            box-shadow: 0 5px 15px rgba(0,0,0,.05);
-            transition: .3s;
+
+            box-shadow:
+                    0 5px 15px
+                    rgba(0, 0, 0, 0.05);
+
+            transition: 0.3s;
         }
 
         .card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 15px 30px rgba(0,0,0,.1);
+
+            box-shadow:
+                    0 15px 30px
+                    rgba(0, 0, 0, 0.1);
         }
 
         .card-icon {
@@ -142,20 +161,29 @@
             font-size: 30px;
         }
 
+        /* ================= TOOLS ================= */
+
         .tools {
             background: white;
             padding: 18px;
             border-radius: 15px;
             margin-bottom: 25px;
+
             display: flex;
             gap: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,.05);
+
+            box-shadow:
+                    0 5px 15px
+                    rgba(0, 0, 0, 0.05);
         }
 
         .tools input {
             flex: 1;
             padding: 13px;
-            border: 1px solid #cbd5e1;
+
+            border:
+                    1px solid #cbd5e1;
+
             border-radius: 9px;
             outline: none;
         }
@@ -168,8 +196,10 @@
             border: none;
             background: #2563eb;
             color: white;
+
             padding: 12px 20px;
             border-radius: 9px;
+
             cursor: pointer;
             font-weight: bold;
         }
@@ -177,6 +207,8 @@
         button:hover {
             background: #1d4ed8;
         }
+
+        /* ================= REPORTS ================= */
 
         .reports {
             display: grid;
@@ -188,7 +220,10 @@
             background: white;
             padding: 25px;
             border-radius: 16px;
-            box-shadow: 0 5px 15px rgba(0,0,0,.05);
+
+            box-shadow:
+                    0 5px 15px
+                    rgba(0, 0, 0, 0.05);
         }
 
         .report-card h2 {
@@ -200,22 +235,33 @@
             margin-bottom: 25px;
         }
 
+        /* ================= CHART ================= */
+
         .chart-box {
             position: relative;
             height: 350px;
         }
 
+        /* ================= STUDENT LIST ================= */
+
         .student-list {
             display: flex;
             flex-direction: column;
             gap: 15px;
+
+            max-height: 500px;
+            overflow-y: auto;
         }
 
         .student-row {
             padding: 15px;
-            border: 1px solid #e2e8f0;
+
+            border:
+                    1px solid #e2e8f0;
+
             border-radius: 12px;
-            transition: .3s;
+
+            transition: 0.3s;
         }
 
         .student-row:hover {
@@ -229,17 +275,31 @@
             margin-bottom: 10px;
         }
 
+        .student-details {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* ================= PROGRESS ================= */
+
         .progress {
             height: 9px;
             background: #e2e8f0;
+
             border-radius: 20px;
             overflow: hidden;
+
+            margin-top: 10px;
         }
 
         .progress-bar {
             height: 100%;
             border-radius: 20px;
             background: #22c55e;
+
+            transition:
+                    width 0.8s ease;
         }
 
         .medium {
@@ -254,11 +314,32 @@
             color: #16a34a;
         }
 
+        .status-medium {
+            color: #d97706;
+        }
+
         .status-low {
             color: #dc2626;
         }
 
+        /* ================= MESSAGE ================= */
+
+        .message {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 20px;
+            color: #dc2626;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
         @media(max-width: 1000px) {
+
             .cards {
                 grid-template-columns: 1fr;
             }
@@ -267,6 +348,7 @@
                 grid-template-columns: 1fr;
             }
         }
+
     </style>
 
 </head>
@@ -275,6 +357,8 @@
 
 <div class="layout">
 
+    <!-- ================= SIDEBAR ================= -->
+
     <aside class="sidebar">
 
         <div class="logo">
@@ -282,32 +366,71 @@
         </div>
 
         <nav>
-            <a href="/faculty-dashboard">🏠 Dashboard</a>
-            <a href="/faculty-dashboard#students">🎓 Students</a>
-            <a href="/faculty-dashboard#attendance">✅ Mark Attendance</a>
-            <a href="/faculty-reports" class="active">📊 Reports</a>
-            <a href="#" onclick="logout()">🚪 Logout</a>
+
+            <a href="/faculty-dashboard">
+                🏠 Dashboard
+            </a>
+
+            <a href="/faculty-dashboard#students">
+                🎓 Students
+            </a>
+
+            <a href="/faculty-dashboard#attendance">
+                ✅ Mark Attendance
+            </a>
+
+            <a href="/faculty-reports"
+               class="active">
+                📊 Reports
+            </a>
+
+            <a href="#"
+               onclick="logout()">
+                🚪 Logout
+            </a>
+
         </nav>
 
     </aside>
 
 
+    <!-- ================= MAIN ================= -->
+
     <main class="main">
+
+        <!-- HEADER -->
 
         <div class="header">
 
             <div>
-                <h1>📊 Attendance Reports</h1>
-                <p>Analyse student attendance performance</p>
+
+                <h1>
+                    📊 Attendance Reports
+                </h1>
+
+                <p>
+                    Real attendance data from the attendance database
+                </p>
+
             </div>
+
 
             <div class="profile">
 
-                <div class="avatar">F</div>
+                <div class="avatar">
+                    F
+                </div>
 
                 <div>
-                    <strong>Faculty</strong>
-                    <p>Teacher Account</p>
+
+                    <strong>
+                        Faculty
+                    </strong>
+
+                    <p>
+                        Teacher Account
+                    </p>
+
                 </div>
 
             </div>
@@ -315,35 +438,71 @@
         </div>
 
 
+        <!-- ================= SUMMARY CARDS ================= -->
+
         <div class="cards">
 
             <div class="card">
-                <div class="card-icon">🎓</div>
-                <p>Total Students</p>
-                <h2 id="totalStudents">0</h2>
+
+                <div class="card-icon">
+                    🎓
+                </div>
+
+                <p>
+                    Total Students
+                </p>
+
+                <h2 id="totalStudents">
+                    0
+                </h2>
+
             </div>
 
-            <div class="card">
-                <div class="card-icon">🏆</div>
-                <p>Best Attendance</p>
-                <h2 id="bestAttendance">0%</h2>
-            </div>
 
             <div class="card">
-                <div class="card-icon">⚠️</div>
-                <p>Below 75%</p>
-                <h2 id="lowAttendance">0</h2>
+
+                <div class="card-icon">
+                    🏆
+                </div>
+
+                <p>
+                    Best Attendance
+                </p>
+
+                <h2 id="bestAttendance">
+                    0%
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    ⚠️
+                </div>
+
+                <p>
+                    Below 75%
+                </p>
+
+                <h2 id="lowAttendance">
+                    0
+                </h2>
+
             </div>
 
         </div>
 
+
+        <!-- ================= SEARCH AND REFRESH ================= -->
 
         <div class="tools">
 
             <input
                     type="text"
                     id="search"
-                    placeholder="🔍 Search student..."
+                    placeholder="🔍 Search student by name or roll number..."
                     oninput="filterStudents()">
 
             <button onclick="loadReport()">
@@ -353,26 +512,39 @@
         </div>
 
 
+        <!-- ================= REPORTS ================= -->
+
         <div class="reports">
+
+            <!-- GRAPH -->
 
             <div class="report-card">
 
-                <h2>📈 Student Attendance Graph</h2>
+                <h2>
+                    📈 Student Attendance Graph
+                </h2>
 
                 <p class="subtitle">
-                    Compare attendance percentage between students
+                    Real overall attendance percentage of every student
                 </p>
 
                 <div class="chart-box">
-                    <canvas id="attendanceChart"></canvas>
+
+                    <canvas id="attendanceChart">
+                    </canvas>
+
                 </div>
 
             </div>
 
 
+            <!-- STUDENT PERFORMANCE -->
+
             <div class="report-card">
 
-                <h2>🎓 Student Performance</h2>
+                <h2>
+                    🎓 Student Performance
+                </h2>
 
                 <p class="subtitle">
                     Individual attendance status
@@ -381,6 +553,11 @@
                 <div
                         class="student-list"
                         id="studentList">
+
+                    <p class="message">
+                        Loading attendance report...
+                    </p>
+
                 </div>
 
             </div>
@@ -394,37 +571,86 @@
 
 <script>
 
+    /*
+     * This array stores the REAL attendance
+     * returned by FacultyReportController.
+     */
     let students = [];
 
     let attendanceChart;
 
 
+    /*
+     * LOAD REAL ATTENDANCE REPORT
+     */
     async function loadReport() {
 
         const token =
             localStorage.getItem("token");
 
+
+        /*
+         * Student/faculty must login first.
+         */
         if (!token) {
-            window.location.replace("/login");
+
+            window.location.replace(
+                "/login"
+            );
+
             return;
         }
 
+
+        const studentList =
+            document.getElementById(
+                "studentList"
+            );
+
+
+        studentList.innerHTML = `
+
+            <p class="message">
+                Loading attendance report...
+            </p>
+
+        `;
+
+
         try {
 
+            /*
+             * IMPORTANT:
+             *
+             * This API calculates attendance
+             * using the SAME Attendance table
+             * used by StudentReportController.
+             */
             const response =
                 await fetch(
-                    "/api/student/all",
+                    "/api/faculty-report/all",
                     {
+
+                        method: "GET",
+
                         headers: {
+
                             "Authorization":
                                 "Bearer " + token
+
                         }
+
                     }
                 );
 
 
-            if (response.status === 401 ||
-                response.status === 403) {
+            /*
+             * Invalid or expired token.
+             */
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
 
                 logout();
 
@@ -432,68 +658,75 @@
             }
 
 
+            /*
+             * API error.
+             */
             if (!response.ok) {
+
+                const errorText =
+                    await response.text();
+
+                console.error(
+                    "Faculty report error:",
+                    errorText
+                );
+
                 throw new Error(
-                    "Unable to load students"
+                    "Unable to load attendance report"
                 );
             }
 
 
-            const studentData =
+            /*
+             * REAL ATTENDANCE DATA.
+             *
+             * No random percentages.
+             * No hard-coded percentages.
+             */
+            students =
                 await response.json();
 
 
+            console.log(
+                "Real attendance report:",
+                students
+            );
+
+
             /*
-             Temporary percentages.
-
-             Later we can connect this page
-             directly to real attendance data.
-            */
-
-            students =
-                studentData.map(
-                    (student, index) => {
-
-                        const percentages =
-                            [85, 78, 68, 90, 82, 73];
-
-                        return {
-
-                            name: student.name,
-
-                            rollNumber:
-                            student.rollNumber,
-
-                            percentage:
-                                percentages[
-                                index %
-                                percentages.length
-                                    ]
-
-                        };
-
-                    }
-                );
-
-
+             * Update dashboard.
+             */
             updateSummary();
 
-            displayStudents(students);
+            displayStudents(
+                students
+            );
 
-            createChart(students);
+            createChart(
+                students
+            );
 
         }
 
         catch (error) {
 
-            console.error(error);
+            console.error(
+                "Report loading error:",
+                error
+            );
 
-            document
-                .getElementById("studentList")
-                .innerHTML = `
 
-                <p>
-                    ❌ Unable to load report
+            studentList.innerHTML = `
+
+                <p class="error-message">
+
+                    ❌ Unable to load attendance report.
+
+                    <br><br>
+
+                    Please check whether
+                    FacultyReportController is running.
+
                 </p>
 
             `;
@@ -503,10 +736,18 @@
     }
 
 
+    /*
+     * UPDATE SUMMARY CARDS
+     */
     function updateSummary() {
 
+        /*
+         * Total students.
+         */
         document
-            .getElementById("totalStudents")
+            .getElementById(
+                "totalStudents"
+            )
             .innerText =
             students.length;
 
@@ -516,147 +757,260 @@
         let low = 0;
 
 
-        students.forEach(student => {
+        students.forEach(
+            student => {
 
-            if (student.percentage > best) {
+                const percentage =
+                    Number(
+                        student.percentage
+                    ) || 0;
 
-                best =
-                    student.percentage;
+
+                /*
+                 * Find best attendance.
+                 */
+                if (percentage > best) {
+
+                    best =
+                        percentage;
+
+                }
+
+
+                /*
+                 * Count students below 75%.
+                 *
+                 * Students with no classes
+                 * currently have 0%.
+                 */
+                if (percentage < 75) {
+
+                    low++;
+
+                }
 
             }
-
-
-            if (student.percentage < 75) {
-
-                low++;
-
-            }
-
-        });
+        );
 
 
         document
-            .getElementById("bestAttendance")
+            .getElementById(
+                "bestAttendance"
+            )
             .innerText =
             best + "%";
 
 
         document
-            .getElementById("lowAttendance")
+            .getElementById(
+                "lowAttendance"
+            )
             .innerText =
             low;
 
     }
 
 
+    /*
+     * DISPLAY STUDENTS
+     */
     function displayStudents(data) {
 
         const container =
             document
-                .getElementById("studentList");
+                .getElementById(
+                    "studentList"
+                );
 
 
         container.innerHTML = "";
 
 
+        /*
+         * No students found.
+         */
         if (data.length === 0) {
 
-            container.innerHTML =
-                "<p>No students found</p>";
+            container.innerHTML = `
 
-            return;
-
-        }
-
-
-        data.forEach(student => {
-
-            let progressClass = "";
-
-            let statusClass =
-                "status-good";
-
-
-            if (student.percentage < 75) {
-
-                progressClass = "low";
-
-                statusClass =
-                    "status-low";
-
-            }
-
-            else if (
-                student.percentage < 85
-            ) {
-
-                progressClass =
-                    "medium";
-
-            }
-
-
-            container.innerHTML += `
-
-                <div class="student-row">
-
-                    <div class="student-header">
-
-                        <div>
-
-                            <strong>
-                                ${student.name}
-                            </strong>
-
-                            <br>
-
-                            <small>
-                                ${student.rollNumber}
-                            </small>
-
-                        </div>
-
-
-                        <strong
-                            class="${statusClass}">
-
-                            ${student.percentage}%
-
-                        </strong>
-
-                    </div>
-
-
-                    <div class="progress">
-
-                        <div
-                            class="progress-bar ${progressClass}"
-                            style="
-                            width:
-                            ${student.percentage}%
-                            ">
-                        </div>
-
-                    </div>
-
-                </div>
+                <p class="message">
+                    No students found
+                </p>
 
             `;
 
-        });
+            return;
+        }
+
+
+        /*
+         * Create one attendance card
+         * for every student.
+         */
+        data.forEach(
+            student => {
+
+                const percentage =
+                    Number(
+                        student.percentage
+                    ) || 0;
+
+
+                const totalClasses =
+                    Number(
+                        student.totalClasses
+                    ) || 0;
+
+
+                const present =
+                    Number(
+                        student.present
+                    ) || 0;
+
+
+                const absent =
+                    Number(
+                        student.absent
+                    ) || 0;
+
+
+                let progressClass = "";
+
+                let statusClass =
+                    "status-good";
+
+
+                /*
+                 * Attendance status colours.
+                 */
+                if (percentage < 75) {
+
+                    progressClass =
+                        "low";
+
+                    statusClass =
+                        "status-low";
+
+                }
+
+                else if (
+                    percentage < 85
+                ) {
+
+                    progressClass =
+                        "medium";
+
+                    statusClass =
+                        "status-medium";
+
+                }
+
+
+                const studentRow =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                studentRow.className =
+                    "student-row";
+
+
+                studentRow.innerHTML = `
+
+                        <div class="student-header">
+
+                            <div>
+
+                                <strong>
+                                    ${student.name}
+                                </strong>
+
+                                <br>
+
+                                <small>
+                                    ${student.rollNumber}
+                                </small>
+
+                            </div>
+
+
+                            <strong
+                                    class="${statusClass}">
+
+                                ${percentage}%
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="student-details">
+
+                            Total Classes:
+                            ${totalClasses}
+
+                            &nbsp; | &nbsp;
+
+                            Present:
+                            ${present}
+
+                            &nbsp; | &nbsp;
+
+                            Absent:
+                            ${absent}
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            <div
+                                    class="
+                                        progress-bar
+                                        ${progressClass}
+                                    "
+
+                                    style="
+                                        width:
+                                        ${Math.min(
+                    percentage,
+                    100
+                )}%;
+                                    ">
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+
+                container.appendChild(
+                    studentRow
+                );
+
+            }
+        );
 
     }
 
 
+    /*
+     * CREATE ATTENDANCE CHART
+     */
     function createChart(data) {
 
         const context =
-            document
-                .getElementById(
-                    "attendanceChart"
-                );
+            document.getElementById(
+                "attendanceChart"
+            );
 
 
+        /*
+         * Destroy previous chart
+         * before creating a new chart.
+         */
         if (attendanceChart) {
 
             attendanceChart.destroy();
@@ -671,6 +1025,7 @@
 
                     type: "bar",
 
+
                     data: {
 
                         labels:
@@ -679,6 +1034,7 @@
                                     student.name
                             ),
 
+
                         datasets: [
 
                             {
@@ -686,24 +1042,26 @@
                                 label:
                                     "Attendance Percentage",
 
+
                                 data:
                                     data.map(
                                         student =>
-                                            student.percentage
+                                            Number(
+                                                student.percentage
+                                            ) || 0
                                     ),
 
-                                backgroundColor: [
+
+                                backgroundColor:
                                     "#2563eb",
-                                    "#22c55e",
-                                    "#f59e0b",
-                                    "#8b5cf6",
-                                    "#06b6d4",
-                                    "#ec4899"
-                                ],
 
-                                borderRadius: 10,
 
-                                borderSkipped: false
+                                borderRadius:
+                                    10,
+
+
+                                borderSkipped:
+                                    false
 
                             }
 
@@ -714,37 +1072,46 @@
 
                     options: {
 
-                        responsive: true,
+                        responsive:
+                            true,
 
-                        maintainAspectRatio: false,
+
+                        maintainAspectRatio:
+                            false,
+
 
                         animation: {
 
-                            duration: 1200
+                            duration:
+                                1000
 
                         },
+
 
                         plugins: {
 
                             legend: {
 
-                                display: false
+                                display:
+                                    false
 
                             },
+
 
                             tooltip: {
 
                                 callbacks: {
 
-                                    label: function(context) {
+                                    label:
+                                        function(context) {
 
-                                        return (
-                                            " Attendance: " +
-                                            context.raw +
-                                            "%"
-                                        );
+                                            return (
+                                                " Attendance: " +
+                                                context.raw +
+                                                "%"
+                                            );
 
-                                    }
+                                        }
 
                                 }
 
@@ -752,13 +1119,18 @@
 
                         },
 
+
                         scales: {
 
                             y: {
 
-                                beginAtZero: true,
+                                beginAtZero:
+                                    true,
 
-                                max: 100,
+
+                                max:
+                                    100,
+
 
                                 ticks: {
 
@@ -780,48 +1152,78 @@
     }
 
 
+    /*
+     * SEARCH STUDENTS
+     */
     function filterStudents() {
 
         const search =
             document
-                .getElementById("search")
+                .getElementById(
+                    "search"
+                )
                 .value
-                .toLowerCase();
+                .toLowerCase()
+                .trim();
 
 
         const filtered =
             students.filter(
-                student =>
+                student => {
 
-                    student.name
-                        .toLowerCase()
-                        .includes(search)
+                    const name =
+                        String(
+                            student.name || ""
+                        )
+                            .toLowerCase();
 
-                    ||
 
-                    student.rollNumber
-                        .toLowerCase()
-                        .includes(search)
+                    const rollNumber =
+                        String(
+                            student.rollNumber || ""
+                        )
+                            .toLowerCase();
 
+
+                    return (
+                        name.includes(search)
+                        ||
+                        rollNumber.includes(search)
+                    );
+
+                }
             );
 
 
-        displayStudents(filtered);
+        displayStudents(
+            filtered
+        );
 
-        createChart(filtered);
+
+        createChart(
+            filtered
+        );
 
     }
 
 
+    /*
+     * LOGOUT
+     */
     function logout() {
 
         localStorage.clear();
 
-        window.location.replace("/login");
+        window.location.replace(
+            "/login"
+        );
 
     }
 
 
+    /*
+     * LOAD REPORT WHEN PAGE OPENS
+     */
     loadReport();
 
 </script>
